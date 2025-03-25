@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Meta tags para establecer la codificación de caracteres y la visualización en dispositivos móviles -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel - Sistema de Reservas</title>
+    <!-- Enlace al archivo CSS que contiene los estilos de la página -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header que contiene el título y la navegación -->
+    <header>
+        <!-- Título del sistema de reservas -->
+        <h1>Sistema de Reservas de Hotel</h1>
+        <nav>
+            <!-- Enlaces de navegación para "Iniciar sesión" y "Registrarse" -->
+            <a href="#">Iniciar sesión</a>
+            <a href="#">Registrarse</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Sección para la búsqueda de habitaciones -->
+        <section class="busqueda">
+            <!-- Título de la sección de búsqueda -->
+            <h2>Buscar Habitaciones</h2>
+            
+            <!-- Input para seleccionar el país, con un datalist que ofrece opciones predefinidas -->
+            <label>País:
+                <input list="paises" id="pais" placeholder="Escribe o selecciona un país">
+                <datalist id="paises">
+                    <option value="México"></option>
+                    <option value="Estados Unidos"></option>
+                    <option value="España"></option>
+                </datalist>
+            </label>
+
+            <!-- Select para seleccionar el estado, inicialmente deshabilitado hasta que el país sea seleccionado -->
+            <label>Estado:
+                <select id="estado" disabled>
+                    <option value="">Selecciona un país primero</option>
+                </select>
+            </label>
+
+            <!-- Inputs para seleccionar las fechas de entrada y salida -->
+            <label>Fecha de Entrada: <input type="date" id="fecha-entrada"></label>
+            <label>Fecha de Salida: <input type="date" id="fecha-salida"></label>
+            
+            <!-- Botón para iniciar la búsqueda de habitaciones -->
+            <button id="buscar-btn">Buscar</button>
+        </section>
+
+        <!-- Barra lateral (menú de cuenta) -->
+        <div id="sidebar" class="sidebar">
+        
+            <div class="historial-container">
+                <button id="btn-historial">📜 Historial</button>
+                <div id="historial-reservas" class="historial oculto">
+                    <button id="btn-limpiar-historial" class="btn-limpiar">Borrar Historial</button>
+                    <!-- Las reservas aparecerán aquí -->
+                </div>
+            </div>
+            
+            <span class="cerrar-sidebar">&times;</span>
+            <h2>Menú de Cuenta</h2>
+        <button id="btn-cerrar-sesion" class="btn-cerrar-sesion">Cerrar Sesión</button>
+        </div>
+
+        <!-- Sección de habitaciones destacadas -->
+        <section class="habitaciones">
+            <h2>🏆 Habitaciones Destacadas</h2>
+            <div class="grid-habitaciones">
+                <!-- Una habitación destacada con detalles de imagen, nombre, estado, precio y capacidad -->
+                <div class="habitacion">
+                    <img src="imagenes/miku.jpg" alt="Habitación Destacada 1">
+                    <h3>Suite Presidencial</h3>
+                    <p>Estado: <span class="estado disponible">Disponible</span></p>
+                    <p>Precio: $5000 MXN / noche</p>
+                    <p>Capacidad: 4 personas</p>
+                    <!-- Botón para reservar esta habitación -->
+                    <button class="reservar-btn">Reservar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de habitaciones disponibles, inicialmente oculta -->
+        <section class="habitaciones" id="habitaciones-disponibles" style="display: none;">
+            <h2>Habitaciones Disponibles</h2>
+            <div class="grid-habitaciones">
+                <!-- Primera habitación disponible con detalles similares a la habitación destacada -->
+                <div class="habitacion">
+                    <img src="imagenes/63b55110c9d9e8454ea65b45ebc5a01a.jpeg" alt="Habitación 1">
+                    <h3>Habitación 1</h3>
+                    <p>Estado: <span class="estado disponible">Disponible</span></p>
+                    <p>Precio: $1200 MXN / noche</p>
+                    <p>Capacidad: 2 personas</p>
+                    <button class="reservar-btn">Reservar</button>
+                </div>
+                <!-- Segunda habitación que está ocupada -->
+                <div class="habitacion">
+                    <img src="imagenes/luna.jpeg" alt="Habitación 2">
+                    <h3>Habitación 2</h3>
+                    <p>Estado: <span class="estado ocupada">Ocupada</span></p>
+                    <p>Precio: $1500 MXN / noche</p>
+                    <p>Capacidad: 3 personas</p>
+                    <!-- Botón de reserva deshabilitado porque la habitación está ocupada -->
+                    <button class="reservar-btn" disabled>Ocupada</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección para consultar una reserva usando el ID de la reserva -->
+        <section class="consulta-reserva">
+            <h2>Consultar Reserva</h2>
+            <label for="reserva-id">Ingresa tu ID de Reserva:</label>
+            <!-- Input para ingresar el ID de la reserva -->
+            <input type="text" id="reserva-id" placeholder="Ejemplo: 123456">
+            <!-- Botón para consultar la reserva -->
+            <button id="consultar-btn">Consultar</button>
+            <!-- Espacio para mostrar los resultados de la consulta -->
+            <p id="resultado-consulta"></p>
+        </section>
+    </main>
+
+    <!-- Modal de Inicio de Sesión / Registro -->
+<div id="modal-auth" class="modal">
+    <div class="modal-contenido">
+        <span class="cerrar">&times;</span>
+        <h2 id="modal-titulo">Iniciar Sesión</h2>
+
+        <label for="email">Correo:</label>
+        <input type="email" id="email" placeholder="ejemplo@correo.com">
+
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" placeholder="••••••••">
+
+        <button id="btn-auth">Ingresar</button>
+        
+        <p id="toggle-auth">¿No tienes cuenta? <a href="#">Regístrate</a></p>
+    </div>
+</div>
+
+<!-- Modal de Confirmación de Reserva -->
+<div id="modal-reserva" class="modal">
+    <div class="modal-contenido">
+        <span class="cerrar-reserva">&times;</span>
+        <h2>Confirmar Reserva</h2>
+        <p>¿Estás seguro de que deseas reservar esta habitación?</p>
+        <button id="confirmar-reserva-btn">Confirmar</button>
+    </div>
+</div>
+
+<!-- Modal para mostrar detalles de la reserva -->
+<div id="modal-detalle-reserva" class="modal">
+    <div class="modal-contenido">
+        <span class="cerrar-detalle">&times;</span>
+        <h2>Detalles de la Reserva</h2>
+        <p id="info-reserva"></p>
+        <p id="estado-reserva"></p>
+        <button id="cancelar-reserva-btn">Cancelar Reserva</button>
+    </div>
+</div>
+
+    <!-- Footer que contiene el copyright de la página -->
+    <footer>
+        <p>Hotel &copy; 2025</p>
+    </footer>
+
+    <!-- Enlace al archivo JavaScript que manejará la lógica de interactividad -->
+    <script src="script.js"></script>
+</body>
+</html>
+
