@@ -232,87 +232,44 @@ const infoReserva = document.getElementById("info-reserva");
 const estadoReserva = document.getElementById("estado-reserva");
 const cancelarReservaBtn = document.getElementById("cancelar-reserva-btn");
 
-
-
-
-/** 
 consultarBtn.addEventListener("click", function () {
     const idReserva = document.getElementById("reserva-id").value.trim();
 
-    if (!idReserva) {
-        alert("Por favor, ingresa un ID de reserva.");
+    if (!idReserva || isNaN(idReserva)) {
+        alert("⚠️ Ingresa un ID de reserva válido (número).");
         return;
     }
 
-    // Buscar específicamente por la ID proporcionada
-    const reserva = JSON.parse(localStorage.getItem(`reserva_${idReserva}`));
+    fetch(`http://localhost:3000/api/reservas/${idReserva}`)
+        .then(res => {
+            if (!res.ok) throw new Error("No se encontró la reserva");
+            return res.json();
+        })
+        .then(reserva => {
+            console.log("✅ Reserva encontrada:", reserva); // DEBUG
 
-    if (reserva) {
-        infoReserva.innerHTML = `
-            <strong>Habitación:</strong> ${reserva.habitacion}<br>
-            <strong>ID:</strong> ${reserva.id}<br>
-            <strong>Precio:</strong> ${reserva.precio}<br>
-            <strong>Capacidad:</strong> ${reserva.capacidad}<br>
-            <strong>Ubicación:</strong> ${reserva.pais}, ${reserva.estadoUbicacion}<br>
-            <strong>Check-in:</strong> ${new Date(reserva.fechaEntrada).toLocaleDateString()}<br>
-            <strong>Check-out:</strong> ${new Date(reserva.fechaSalida).toLocaleDateString()}<br>
-            <strong>Reservado el:</strong> ${new Date(reserva.fechaCreacion).toLocaleString()}
-        `;
+            infoReserva.innerHTML = `
+                <strong>Habitación:</strong> ${reserva.habitacion}<br>
+                <strong>ID:</strong> ${reserva.id}<br>
+                <strong>Precio:</strong> ${reserva.precio}<br>
+                <strong>Capacidad:</strong> ${reserva.capacidad}<br>
+                <strong>Ubicación:</strong> ${reserva.pais}, ${reserva.estado_ubicacion}<br>
+                <strong>Check-in:</strong> ${new Date(reserva.fecha_entrada).toLocaleDateString()}<br>
+                <strong>Check-out:</strong> ${new Date(reserva.fecha_salida).toLocaleDateString()}<br>
+                <strong>Reservado el:</strong> ${new Date(reserva.fecha_creacion).toLocaleString()}
+            `;
 
-        estadoReserva.innerHTML = `<strong>Estado:</strong> ${reserva.estado}`;
-        modalDetalleReserva.style.display = "flex";
+            estadoReserva.innerHTML = `<strong>Estado:</strong> ${reserva.estado}`;
+            modalDetalleReserva.style.display = "flex";
 
-        if (reserva.estado === "Cancelada") {
-            cancelarReservaBtn.disabled = true;
-            cancelarReservaBtn.textContent = "Reserva Cancelada";
-        } else {
-            cancelarReservaBtn.disabled = false;
-            cancelarReservaBtn.textContent = "Cancelar Reserva";
-        }
-    } else {
-        alert("No se encontró ninguna reserva con ese ID.");
-    }
-}); */
-
-consultarBtn.addEventListener("click", function () {
-    consultarBtn.addEventListener("click", function () {
-        const idReserva = document.getElementById("reserva-id").value.trim();
-    
-        if (!idReserva) {
-            alert("Por favor, ingresa un ID de reserva.");
-            return;
-        }
-    
-        fetch(`http://localhost:3000/api/reservas/${idReserva}`)
-            .then(res => {
-                if (!res.ok) throw new Error("No se encontró la reserva");
-                return res.json();
-            })
-            .then(reserva => {
-                infoReserva.innerHTML = `
-                    <strong>Habitación:</strong> ${reserva.habitacion}<br>
-                    <strong>ID:</strong> ${reserva.id}<br>
-                    <strong>Precio:</strong> ${reserva.precio}<br>
-                    <strong>Capacidad:</strong> ${reserva.capacidad}<br>
-                    <strong>Ubicación:</strong> ${reserva.pais}, ${reserva.estado_ubicacion}<br>
-                    <strong>Check-in:</strong> ${new Date(reserva.fecha_entrada).toLocaleDateString()}<br>
-                    <strong>Check-out:</strong> ${new Date(reserva.fecha_salida).toLocaleDateString()}<br>
-                    <strong>Reservado el:</strong> ${new Date(reserva.fecha_creacion).toLocaleString()}
-                `;
-                estadoReserva.innerHTML = `<strong>Estado:</strong> ${reserva.estado}`;
-                modalDetalleReserva.style.display = "flex";
-    
-                cancelarReservaBtn.disabled = reserva.estado === "Cancelada";
-                cancelarReservaBtn.textContent = reserva.estado === "Cancelada"
-                    ? "Reserva Cancelada" : "Cancelar Reserva";
-            })
-            .catch(err => {
-                console.error("❌", err);
-                alert("❌ No se encontró ninguna reserva con ese ID.");
-            });
-    });
-    
-    
+            cancelarReservaBtn.disabled = reserva.estado === "Cancelada";
+            cancelarReservaBtn.textContent = reserva.estado === "Cancelada"
+                ? "Reserva Cancelada" : "Cancelar Reserva";
+        })
+        .catch(err => {
+            console.error("❌ Error al consultar reserva:", err);
+            alert("❌ No se encontró ninguna reserva con ese ID.");
+        });
 });
 
 
@@ -351,20 +308,6 @@ cancelarReservaBtn.addEventListener("click", function () {
         alert("❌ Error al cancelar la reserva.");
     });
 });
-
-/** 
-cancelarReservaBtn.addEventListener("click", function () {
-    const idReserva = document.getElementById("reserva-id").value.trim();
-    let reserva = JSON.parse(localStorage.getItem(`reserva_${idReserva}`));
-
-    if (reserva) {
-        reserva.estado = "Cancelada"; // Marcar como cancelada
-        localStorage.setItem(`reserva_${idReserva}`, JSON.stringify(reserva)); // Guardar cambios
-
-        alert("❌ Tu reserva ha sido cancelada.");
-        modalDetalleReserva.style.display = "none"; // Cerrar modal
-    }
-}); */
 
     // Cerrar modal si se hace clic fuera del contenido
     window.addEventListener("click", function (e) {
