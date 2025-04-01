@@ -395,88 +395,70 @@ cancelarReservaBtn.addEventListener("click", function () {
 
 // Reemplaza todo el código del historial con este:
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const btnHistorial = document.getElementById("btn-historial");
     const historialReservas = document.getElementById("historial-reservas");
-    
-    function mostrarHistorial() {
-        historialReservas.innerHTML = `
-            <button id="btn-limpiar-historial" class="btn-limpiar">Borrar Historial</button>
-        `;
-        
-        const reservas = [];
-        
-        // Recoger todas las reservas
-        for (let i = 0; i < localStorage.length; i++) {
-            const clave = localStorage.key(i);
-            if (clave.startsWith("reserva_")) {
-                const reserva = JSON.parse(localStorage.getItem(clave));
-                reservas.push(reserva);
-            }
+
+    async function mostrarHistorialDesdeBackend() {
+        historialReservas.innerHTML = `<p>Cargando historial...</p>`;
+
+        const correoUsuario = localStorage.getItem("usuarioCorreo");
+
+        if (!correoUsuario) {
+            historialReservas.innerHTML = '<p class="sin-reservas">Debes iniciar sesión para ver tu historial.</p>';
+            return;
         }
-        
-        // Ordenar por fecha (más recientes primero)
-        reservas.sort((a, b) => new Date(b.fechaCreacion) - new Date(a.fechaCreacion));
-        
-        // Mostrar reservas
-        if (reservas.length === 0) {
-            historialReservas.innerHTML += '<p class="sin-reservas">No hay reservas registradas</p>';
-        } else {
-            reservas.forEach(reserva => {
-                const item = document.createElement("div");
-                item.classList.add("historial-item");
-                item.innerHTML = `
-                    <p><strong>ID:</strong> ${reserva.id}</p>
-                    <p><strong>Habitación:</strong> ${reserva.habitacion}</p>
-                    <p><strong>Fecha:</strong> ${new Date(reserva.fechaCreacion).toLocaleString()}</p>
-                    <p><strong>Estado:</strong> ${reserva.estado}</p>
-                    <hr>
-                `;
-                historialReservas.appendChild(item);
+
+        try {
+            const res = await fetch(`http://localhost:3000/api/reservas/usuario/${correoUsuario}`);
+            if (!res.ok) throw new Error("Error al obtener historial");
+
+            const reservas = await res.json();
+
+            historialReservas.innerHTML = `
+                <button id="btn-limpiar-historial" class="btn-limpiar">Borrar Historial</button>
+            `;
+
+            if (reservas.length === 0) {
+                historialReservas.innerHTML += '<p class="sin-reservas">No tienes reservas registradas.</p>';
+            } else {
+                reservas.forEach(reserva => {
+                    const item = document.createElement("div");
+                    item.classList.add("historial-item");
+                    item.innerHTML = `
+                        <p><strong>ID:</strong> ${reserva.id}</p>
+                        <p><strong>Habitación:</strong> ${reserva.habitacion}</p>
+                        <p><strong>Fecha:</strong> ${new Date(reserva.fecha_creacion).toLocaleString()}</p>
+                        <p><strong>Estado:</strong> ${reserva.estado}</p>
+                        <hr>
+                    `;
+                    historialReservas.appendChild(item);
+                });
+            }
+
+            // Este botón ahora solo muestra alerta porque no se puede borrar el historial real desde la BD
+            document.getElementById("btn-limpiar-historial").addEventListener("click", () => {
+                alert("🛑 No puedes borrar el historial desde aquí. Contacta con un administrador si es necesario.");
             });
-        }
-        
-        document.getElementById("btn-limpiar-historial").addEventListener("click", limpiarHistorialCompleto);
-    }
-    
-    // Función para limpiar todo el historial
-    function limpiarHistorialCompleto() {
-        if (confirm("⚠️ ¿Estás seguro que quieres eliminar TODAS tus reservas? Esta acción no se puede deshacer.")) {
-            // Crear array de claves a eliminar
-            const clavesAEliminar = [];
-            
-            // Identificar todas las claves de reservas
-            for (let i = 0; i < localStorage.length; i++) {
-                const clave = localStorage.key(i);
-                if (clave.startsWith("reserva_")) {
-                    clavesAEliminar.push(clave);
-                }
-            }
-            
-            // Eliminar todas las reservas encontradas
-            clavesAEliminar.forEach(clave => localStorage.removeItem(clave));
-            
-            // Mostrar mensaje de éxito
-            alert("✅ Todas las reservas han sido eliminadas");
-            
-            // Actualizar la vista del historial
-            mostrarHistorial();
+
+        } catch (err) {
+            console.error("❌ Error al cargar historial:", err);
+            historialReservas.innerHTML = '<p class="sin-reservas">Error al cargar tu historial.</p>';
         }
     }
-    
-    // Evento para mostrar/ocultar el historial
-    btnHistorial.addEventListener("click", function() {
+
+    // Mostrar/ocultar historial
+    btnHistorial.addEventListener("click", function () {
         historialReservas.classList.toggle("oculto");
         if (!historialReservas.classList.contains("oculto")) {
-            mostrarHistorial();
+            mostrarHistorialDesdeBackend();
         }
     });
-    
+
     // Cerrar historial al hacer clic fuera
-    document.addEventListener("click", function(e) {
+    document.addEventListener("click", function (e) {
         if (!historialReservas.contains(e.target) && e.target !== btnHistorial) {
             historialReservas.classList.add("oculto");
         }
     });
-}); 
-
+});
