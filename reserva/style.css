@@ -14,9 +14,9 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #48B9A8;
+    background: #48b9a8ce;
     color: white;
-    padding: 1rem 5%;
+    padding: 5px;
 }
 /* El contenedor del encabezado usa Flexbox para distribuir los elementos (por ejemplo, logo, menú).
    - Se alinea el contenido de manera que los elementos se distribuyan con espacio entre ellos.
@@ -28,15 +28,19 @@ header h1 {
 }
 
 body {
-    background-color: #48B9A8(0, 0, 0);
+    background-color: #ececec;
 }
 
 nav a {
     color: white;
     text-decoration: none;
-    margin-left: 15px;
-    font-weight: bold;
+    margin-left: -35px;
+    font-weight: 200;
+    letter-spacing: 1px;
+    font-size: 20px;
+    margin-right: 60px;
 }
+
 /* Estiliza los enlaces dentro del menú de navegación:
    - Color blanco y elimina la decoración subrayada.
    - Añade margen entre los enlaces y aumenta el grosor de la fuente para destacarlos. */
@@ -116,27 +120,32 @@ main {
    - Utiliza `auto-fit` para ajustar el número de columnas según el ancho disponible.
    - Cada columna tiene un ancho mínimo de 280px, y hay un espacio de 15px entre los elementos. */
 
-.habitacion {
+   .habitacion {
     background: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 19, 0.973);
+    border-radius: 42px; /* Bordes muy redondeados */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 20px;
     text-align: center;
-    transition: transform 0.3s ease-in-out;
+    transition: all 0.3s ease;
+    border: 1px solid #e0e0e0; /* Borde sutil (opcional) */
+    overflow: hidden;  /* Oculta el exceso de la imagen */
+    position: relative; /* Necesario para márgenes negativos */
 }
-/* Cada habitación tiene un fondo blanco, bordes redondeados y sombra.
-   - También tiene una transición suave para animar los cambios de transformaciones, como el efecto de hover. */
 
 .habitacion:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px); /* Efecto elevación al pasar el mouse */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
 }
 /* Al pasar el ratón sobre una habitación, se desplaza ligeramente hacia arriba para crear un efecto visual atractivo. */
 
 .habitacion img {
-    width: 100%;
-    height: 180px;
-    border-radius: 8px;
-    object-fit: cover;
+    width: 107%;       /* Ocupa todo el ancho del contenedor */
+    height: 250px;     /* Altura fija (ajusta según necesidad) */
+    object-fit: cover; /* Asegura que la imagen cubra el espacio sin deformarse */
+    border-radius: 12px 12px 12px 0; /* Redondea solo las esquinas superiores */
+    display: block;    /* Elimina espacios no deseados debajo de la imagen */
+    margin: -20px -20px 15px -20px; /* "Sangra" la imagen fuera del padding */
+    
 }
 /* Las imágenes dentro de cada habitación se ajustan para llenar el contenedor de manera uniforme, manteniendo su aspecto visual y sin distorsionarse. */
 
@@ -155,12 +164,12 @@ main {
 /* Los estados (disponible u ocupada) tienen un estilo de texto en negrita, con un relleno y bordes redondeados. */
 
 .disponible {
-    color: green;
+    color: #49B9A9;
 }
 /* Las habitaciones disponibles se muestran con texto verde. */
 
 .ocupada {
-    color: red;
+    color: #FA3B5A;
 }
 /* Las habitaciones ocupadas se muestran con texto rojo. */
 
@@ -174,7 +183,7 @@ main {
     margin-top: 10px;
     width: 100%;
     font-size: 1rem;
-    border-radius: 5px;
+    border-radius: 15px;
     transition: background 0.3s ease-in-out;
 }
 /* El botón de reservar tiene un fondo verde, texto blanco y bordes redondeados.
@@ -261,7 +270,7 @@ main {
 
 /* Estilos para el campo de país y estado */
 .busqueda select, .busqueda input[list] {
-    padding: 8px;
+    padding: 8px;   
     border-radius: 5px;
     border: 1px solid #ccc;
     width: 250px;
@@ -271,13 +280,107 @@ main {
 
 /* ===== Footer siempre abajo ===== */
 footer {
-    background: #011a33;
+    background: #48b9a8ec;
     color: white;
-    text-align: center;
     padding: 35px;
     font-size: 1rem;
-    margin-top: auto; /* Empuja el footer al final si hay poco contenido */
+    margin-top: auto;
+    display: flex;          /* Activa Flexbox */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center;    /* Centra verticalmente */
+    flex-direction: column; /* Apila logo y texto */
+    text-align: center;     /* Asegura que el texto esté centrado */
 }
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px; /* Espacio entre logo y texto */
+}
+
+/* Footer - Botones de redes sociales */
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Espacio entre redes sociales y logo */
+    padding: 25px 35px;
+  }
+  
+  .social-buttons {
+    display: flex;
+    gap: 15px; /* Espacio entre botones */
+  }
+  
+  .social-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  
+  .social-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+  
+  .social-btn img {
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* Contenedor de botones sociales */
+.social-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+  }
+  
+  /* Estilo base de los botones */
+  .social-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* Necesario para el tooltip */
+    color: #48B9A8;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+  }
+  
+  /* Tooltip */
+  .social-btn::after {
+    content: attr(data-tooltip); /* Texto del atributo data-tooltip */
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-family: 'Poppins', sans-serif;
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+  }
+  
+  /* Mostrar tooltip al hover */
+  .social-btn:hover::after {
+    opacity: 1;
+  }
+
+  
 /* El pie de página tiene un fondo oscuro, texto blanco y está centrado.
    - Usa `margin-top: auto` para asegurarse de que el pie de página siempre esté al final de la página, incluso si el contenido principal es pequeño. */
 
@@ -357,7 +460,7 @@ footer {
 }
 
 .cerrar-reserva:hover {
-    color: red;
+    color: rgb(255, 0, 0);
 }
 
 #confirmar-reserva-btn {
@@ -448,8 +551,8 @@ footer {
     position: fixed;
     top: 0;
     right: -250px; /* Oculta la barra al inicio */
-    background: #494949d0;
-    color: white;
+    background: #f0efef94;
+    color: rgba(0, 0, 0, 0.712);
     padding: 20px;
     transition: right 0.3s ease-in-out;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
@@ -472,7 +575,7 @@ footer {
 }
 
 .btn-cerrar-sesion {
-    background: red;
+    background: rgba(255, 0, 0, 0.555);
     color: white;
     border: none;
     padding: 10px;
@@ -483,7 +586,7 @@ footer {
 }
 
 .btn-cerrar-sesion:hover {
-    background: darkred;
+    background: rgba(255, 2, 2, 0.966);
 }
 
 /* 📌 Contenedor del botón y la lista */
@@ -495,7 +598,7 @@ footer {
 
 /* 📌 Diseño del botón de historial */
 #btn-historial {
-    background: #007bff;
+    background: #48b9a8ad;
     color: white;
     border: none;
     padding: 8px 65px;
@@ -507,7 +610,7 @@ footer {
 }
 
 #btn-historial:hover {
-    background: #0056b3;
+    background: #48b9a8ec;
 }
 
 /* 📌 Ajuste del historial para que crezca dinámicamente */
@@ -529,7 +632,7 @@ footer {
 }
 
 .historial-item {
-    background: #000000;
+    background: #f8f8f8;
     margin: 8px 0;
     padding: 12px;
     border-radius: 5px;
@@ -537,7 +640,7 @@ footer {
 }
 
 .historial-item:hover {
-    background: #09005763;
+    background: #ffffffd8;
     transform: translateX(5px);
 }
 
@@ -574,3 +677,59 @@ footer {
 .btn-limpiar:hover {
     background: #ff6b81;
 }
+
+/*Estilos para el logo*/ 
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 1px;
+}
+
+.logo {
+    height: 50px; /* Ajusta según el tamaño de tu logo */
+    width: 60px;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    margin: 0; /* Elimina márgenes predeterminados */
+    font-weight: 1000; /* Grosor similar a la referencia */
+}
+
+.logo-container h1 {
+    
+    letter-spacing: 2.5px; /* Ajusta este valor según prefieras */
+    margin: 0;
+}
+
+.logo-container h1 {
+    font-size: 2.3rem; /* Tamaño más grande para destacar */
+    font-family: "Leckerli One", cursive;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 2.1px; /* Ajusta este valor según prefieras */
+    margin: 0;
+  }
+  
+  .icono-emoji {
+    width: 30px;
+    margin-top: -10px;
+    vertical-align: middle;
+  }
+
+/* Estilo para botones con ícono */
+.btn-con-icono {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Espacio entre ícono y texto */
+    background: #48b9a8ad; /* Mantén tu color actual */
+    padding: 8px 65px; /* Ajusta según necesidad */
+  }
+  
+  .icono-btn {
+    width: 20px; /* Tamaño del ícono */
+    height: 20px;
+    filter: 
+ }
+ 
