@@ -4,15 +4,23 @@
     <!-- Meta tags para establecer la codificación de caracteres y la visualización en dispositivos móviles -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel - Sistema de Reservas</title>
+    <title>Hotel-Zeyn</title>
     <!-- Enlace al archivo CSS que contiene los estilos de la página -->
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- En el <head> de tu HTML, añade esta línea: -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&display=swap" rel="stylesheet">
+    <link rel="icon" href="imagenes/palmera-de-cocos.png" type="image/x-icon">
 </head>
 <body>
     <!-- Header que contiene el título y la navegación -->
     <header>
-        <!-- Título del sistema de reservas -->
-        <h1>Sistema de Reservas de Hotel</h1>
+        <div class="logo-container">
+            <img src="/imagenes/logoZeyn.png" alt="Logo Hotel" class="logo">
+            <h1>Hotel Zeyn</h1> <!-- Cambia el texto a tu nombre deseado -->
+        </div>
         <nav>
             <!-- Enlaces de navegación para "Iniciar sesión" y "Registrarse" -->
             <a href="#">Iniciar sesión</a>
@@ -55,7 +63,10 @@
         <div id="sidebar" class="sidebar">
         
             <div class="historial-container">
-                <button id="btn-historial">📜 Historial</button>
+                <button id="btn-historial" class="btn-con-icono">
+                    <img src="imagenes/votacion.png" alt="Historial" class="icono-btn">
+                    Historial
+                  </button>
                 <div id="historial-reservas" class="historial oculto">
                     <button id="btn-limpiar-historial" class="btn-limpiar">Borrar Historial</button>
                     <!-- Las reservas aparecerán aquí -->
@@ -69,11 +80,11 @@
 
         <!-- Sección de habitaciones destacadas -->
         <section class="habitaciones">
-            <h2>🏆 Habitaciones Destacadas</h2>
+            <h2><img src="imagenes/estrella.png" class="icono-emoji"> Habitaciones Destacadas</h2>
             <div class="grid-habitaciones">
                 <!-- Una habitación destacada con detalles de imagen, nombre, estado, precio y capacidad -->
                 <div class="habitacion">
-                    <img src="imagenes/miku.jpg" alt="Habitación Destacada 1">
+                    <img src="imagenes/bedroom-1807837_1280.jpg" alt="Habitación Destacada 1">
                     <h3>Suite Presidencial</h3>
                     <p>Estado: <span class="estado disponible">Disponible</span></p>
                     <p>Precio: $5000 MXN / noche</p>
@@ -90,7 +101,7 @@
             <div class="grid-habitaciones">
                 <!-- Primera habitación disponible con detalles similares a la habitación destacada -->
                 <div class="habitacion">
-                    <img src="imagenes/63b55110c9d9e8454ea65b45ebc5a01a.jpeg" alt="Habitación 1">
+                    <img src="imagenes/bedroom-6778193_1280.jpg" alt="Habitación 1">
                     <h3>Habitación 1</h3>
                     <p>Estado: <span class="estado disponible">Disponible</span></p>
                     <p>Precio: $1200 MXN / noche</p>
@@ -99,7 +110,7 @@
                 </div>
                 <!-- Segunda habitación que está ocupada -->
                 <div class="habitacion">
-                    <img src="imagenes/luna.jpeg" alt="Habitación 2">
+                    <img src="imagenes/interior-3538020_1280.jpg" alt="Habitación 2">
                     <h3>Habitación 2</h3>
                     <p>Estado: <span class="estado ocupada">Ocupada</span></p>
                     <p>Precio: $1500 MXN / noche</p>
@@ -166,8 +177,47 @@
 
     <!-- Footer que contiene el copyright de la página -->
     <footer>
-        <p>Hotel &copy; 2025</p>
-    </footer>
+        <!-- Sección de redes sociales -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        
+        <div class="social-buttons">
+            <!-- Botón de Gmail - Abre cliente de correo -->
+             <!-- ES NECESARIO UN SCRIPT PARA GMAIL--> 
+            <a href="mailto:reservas@hotelzeyn.com?subject=Consulta" class="social-btn" data-tooltip="Gmail">
+                <i class="fa-brands fa-whatsapp"></i>
+             </a>
+            
+            <!-- Botón de Facebook - Enlace a perfil -->
+            <a href="https://facebook.com/HotelZeyn" target="_blank" class="social-btn" data-tooltip="Facebook">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            
+            <!-- Botón de Instagram - Enlace a perfil -->
+            <a href="https://instagram.com/HotelZeyn" target="_blank" class="social-btn" data-tooltip="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+          </div>
+   <!--puede ser cambaido por logos propios con el sigueinte codigo: 
+   
+   <div class="social-buttons">
+    <a href="#" class="social-btn gmail">
+      <img src="imagenes/gmail-icon.png" alt="Gmail">
+    </a>
+    <a href="#" class="social-btn facebook">
+      <img src="imagenes/facebook-icon.png" alt="Facebook">
+    </a>
+    <a href="#" class="social-btn instagram">
+      <img src="imagenes/instagram-icon.png" alt="Instagram">
+    </a>
+  </div> 
+  -->
+
+        <!-- Logo y copyright (existente) -->
+        <div class="logo-container">
+          <img src="/imagenes/logoZeyn.png" alt="Logo Hotel" class="logo">
+          <h1>Hotel Zeyn &copy;</h1>
+        </div>
+      </footer>
 
     <!-- Enlace al archivo JavaScript que manejará la lógica de interactividad -->
     <script src="script.js"></script>
