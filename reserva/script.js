@@ -316,30 +316,121 @@ cancelarReservaBtn.addEventListener("click", function () {
         }
     });
 
-    // ====== Detectar cambio en el país y actualizar estados ======
-    const estadosPorPais = {
-        "México": ["CDMX", "Jalisco", "Nuevo León"],
-        "Estados Unidos": ["California", "Texas", "Nueva York"],
-        "España": ["Madrid", "Cataluña", "Andalucía"]
+
+    let estadosPorPais = {};
+    
+    // Diccionario para traducir del español al inglés
+    const paisesESaEN = {
+      "Afganistán": "Afghanistan",
+      "Alemania": "Germany",
+      "Argentina": "Argentina",
+      "Australia": "Australia",
+      "Austria": "Austria",
+      "Bélgica": "Belgium",
+      "Bolivia": "Bolivia",
+      "Brasil": "Brazil",
+      "Canadá": "Canada",
+      "Chile": "Chile",
+      "China": "China",
+      "Colombia": "Colombia",
+      "Corea del Sur": "South Korea",
+      "Cuba": "Cuba",
+      "Dinamarca": "Denmark",
+      "Ecuador": "Ecuador",
+      "Egipto": "Egypt",
+      "El Salvador": "El Salvador",
+      "España": "Spain",
+      "Estados Unidos": "United States",
+      "Francia": "France",
+      "Grecia": "Greece",
+      "Guatemala": "Guatemala",
+      "Honduras": "Honduras",
+      "India": "India",
+      "Indonesia": "Indonesia",
+      "Irlanda": "Ireland",
+      "Israel": "Israel",
+      "Italia": "Italy",
+      "Japón": "Japan",
+      "México": "Mexico",
+      "Noruega": "Norway",
+      "Países Bajos": "Netherlands",
+      "Panamá": "Panama",
+      "Paraguay": "Paraguay",
+      "Perú": "Peru",
+      "Polonia": "Poland",
+      "Portugal": "Portugal",
+      "Reino Unido": "United Kingdom",
+      "República Dominicana": "Dominican Republic",
+      "Rusia": "Russia",
+      "Suecia": "Sweden",
+      "Suiza": "Switzerland",
+      "Ucrania": "Ukraine",
+      "Uruguay": "Uruguay",
+      "Venezuela": "Venezuela",
     };
-
-    paisInput.addEventListener("input", function () {
-        const paisSeleccionado = Object.keys(estadosPorPais).find(pais => pais.toLowerCase() === paisInput.value.toLowerCase());
-
-        estadoSelect.innerHTML = "";
-        if (paisSeleccionado) {
-            estadoSelect.removeAttribute("disabled");
-            estadosPorPais[paisSeleccionado].forEach(estado => {
-                const option = document.createElement("option");
-                option.value = estado;
-                option.textContent = estado;
-                estadoSelect.appendChild(option);
-            });
-        } else {
-            estadoSelect.setAttribute("disabled", true);
-            estadoSelect.innerHTML = '<option value="">Selecciona un país primero</option>';
+    
+    // Invertimos el diccionario para mostrar los países en español en el datalist
+    const paisesENaES = Object.fromEntries(Object.entries(paisesESaEN).map(([es, en]) => [en, es]));
+    
+    // Cargar CSV
+    fetch("states.csv")
+      .then(response => response.text())
+      .then(csvText => {
+        const lines = csvText.trim().split("\n");
+        const headers = lines[0].split(",");
+        const countryIdx = headers.indexOf("country_name");
+        const stateIdx = headers.indexOf("name");
+    
+        for (let i = 1; i < lines.length; i++) {
+          const cols = lines[i].split(",");
+          const pais = cols[countryIdx];
+          const estado = cols[stateIdx];
+    
+          if (pais && estado) {
+            if (!estadosPorPais[pais]) {
+              estadosPorPais[pais] = [];
+            }
+            estadosPorPais[pais].push(estado);
+          }
         }
+    
+        // Llenar datalist con países en español
+        const datalist = document.getElementById("paises");
+        datalist.innerHTML = "";
+        Object.keys(estadosPorPais).forEach(paisIngles => {
+          const paisEsp = paisesENaES[paisIngles] || paisIngles; // Mostrar en español si existe traducción
+          const option = document.createElement("option");
+          option.value = paisEsp;
+          datalist.appendChild(option);
+        });
+      })
+      .catch(err => {
+        console.error("❌ Error al cargar CSV:", err);
+      });
+    
+    // Solo esta función de cambio en input
+    paisInput.addEventListener("input", function () {
+      const paisIngresado = paisInput.value.trim();
+      const paisTraducido = paisesESaEN[paisIngresado] || paisIngresado;
+    
+      estadoSelect.innerHTML = "";
+    
+      if (estadosPorPais[paisTraducido]) {
+        estadoSelect.removeAttribute("disabled");
+    
+        estadosPorPais[paisTraducido].forEach(estado => {
+          const option = document.createElement("option");
+          option.value = estado;
+          option.textContent = estado;
+          estadoSelect.appendChild(option);
+        });
+      } else {
+        estadoSelect.setAttribute("disabled", true);
+        estadoSelect.innerHTML = '<option value="">Selecciona un país primero</option>';
+      }
     });
+    
+
 
     // ====== Funciones para abrir el modal ======
     function abrirModalLogin() {
@@ -462,3 +553,4 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+

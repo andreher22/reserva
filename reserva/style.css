@@ -551,7 +551,7 @@ footer {
     position: fixed;
     top: 0;
     right: -250px; /* Oculta la barra al inicio */
-    background: #f0efef94;
+    background: #f0efef;
     color: rgba(0, 0, 0, 0.712);
     padding: 20px;
     transition: right 0.3s ease-in-out;
